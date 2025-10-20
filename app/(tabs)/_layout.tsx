@@ -22,16 +22,25 @@ export default function TabLayout() {
       <Tabs.Screen
         name="courses"
         options={{
-          title: "Courses",
+          title: "Курси",
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name="book.fill" color={color} />
           ),
         }}
       />
       <Tabs.Screen
+        name="achivment"
+        options={{
+          title: "Досягнення",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="trophy.fill" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
+          title: "Профіль",
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name="person.fill" color={color} />
           ),

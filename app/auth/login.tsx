@@ -11,7 +11,7 @@ export default function Login() {
   const handleLogin = async () => {
     if (username === "admin" && password === "1234") {
       await AsyncStorage.setItem("token", "example_token");
-      router.replace("/(tabs)/CoursesScreen");
+      router.replace("/(tabs)/courses");
     } else {
       Alert.alert("Помилка", "Невірний логін або пароль");
     }

@@ -6,15 +6,40 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/theme";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 
 export default function ProfileScreen() {
+  const router = useRouter();
   const user = {
     name: "Богдан Серветник",
     email: "bogdan@example.com",
     avatar: "https://i.pravatar.cc/200",
+  };
+
+  const handleLogout = () => {
+    Alert.alert(
+      "Вийти",
+      "Ви впевнені, що хочете вийти з акаунту?",
+      [
+        {
+          text: "Скасувати",
+          style: "cancel",
+        },
+        {
+          text: "Вийти",
+          style: "destructive",
+          onPress: async () => {
+            await AsyncStorage.removeItem("token");
+            router.replace("/auth/login");
+          },
+        },
+      ]
+    );
   };
 
   return (
@@ -55,7 +80,7 @@ export default function ProfileScreen() {
       </View>
 
       {/* Кнопка виходу */}
-      <TouchableOpacity style={styles.logoutButton}>
+      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Ionicons name="log-out-outline" size={20} color="#fff" />
         <Text style={styles.logoutText}>Вийти</Text>
       </TouchableOpacity>

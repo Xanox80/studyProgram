@@ -2,48 +2,48 @@ import React from "react";
 import {
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
+  StyleSheet,
   FlatList,
-  Alert,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 
-const courses = [
-  { id: "1", title: "Основи React Native" },
-  { id: "2", title: "Вступ до Python" },
-  { id: "3", title: "UI/UX Дизайн" },
-  { id: "4", title: "Основи штучного інтелекту" },
-];
+const lessonsByCourse: Record<string, { id: string; title: string }[]> = {
+  "1": [
+    { id: "react-intro", title: "Вступ до React Native" },
+    { id: "jsx", title: "JSX та компоненти" },
+    { id: "state", title: "useState та логіка стану" },
+  ],
+  "2": [
+    { id: "python-intro", title: "Що таке Python" },
+    { id: "variables", title: "Змінні та типи даних" },
+    { id: "loops", title: "Цикли та умови" },
+  ],
+};
 
-export default function CoursesScreen() {
+export default function CourseLessons() {
+  const { id } = useLocalSearchParams();
   const router = useRouter();
 
-  const handlePress = (title: string) => {
-    Alert.alert("📘 Курс відкривається", `Ви обрали: ${title}`);
-  };
+  const lessons = lessonsByCourse[id as string] || [];
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Доступні курси</Text>
+      <Text style={styles.header}>📘 Уроки курсу</Text>
 
       <FlatList
-        data={courses}
+        data={lessons}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.card}
-            onPress={() => handlePress(item.title)}
+            onPress={() => router.push(`/course/lesson/${item.id}`)} // ✅ Передаємо правильний ID
           >
             <Text style={styles.cardText}>{item.title}</Text>
           </TouchableOpacity>
         )}
         contentContainerStyle={styles.list}
       />
-
-      <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-        <Text style={styles.backText}>← Назад</Text>
-      </TouchableOpacity>
     </View>
   );
 }
@@ -51,7 +51,7 @@ export default function CoursesScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#f5f6fa", paddingTop: 60 },
   header: {
-    fontSize: 26,
+    fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 20,
@@ -70,6 +70,4 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   cardText: { fontSize: 18, color: "#333", fontWeight: "500" },
-  backButton: { alignSelf: "center", marginTop: 20 },
-  backText: { fontSize: 16, color: "#4e54c8", fontWeight: "bold" },
 });

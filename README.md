@@ -1,50 +1,61 @@
-# Welcome to your Expo app 👋
+# React Native Learning App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Мобільний додаток для навчання з курсами та уроками.
 
-## Get started
+## Функціональність
 
-1. Install dependencies
+- 🔐 Аутентифікація користувача (логін: admin, пароль: 1234)
+- 📚 Список доступних курсів
+- 📖 Детальні уроки з відео та тестами
+- 🏆 Система досягнень
+- 👤 Профіль користувача з можливістю виходу
 
-   ```bash
-   npm install
-   ```
+## Встановлення та запуск
 
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
+1. Встановіть залежності:
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. Запустіть додаток:
+```bash
+npm start
+```
 
-## Learn more
+3. Відскануйте QR-код за допомогою Expo Go або запустіть на емуляторі:
+```bash
+npm run android  # для Android
+npm run ios      # для iOS
+npm run web      # для веб-версії
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+## Структура проекту
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```
+app/
+├── (tabs)/           # Основні таби
+│   ├── courses.tsx   # Список курсів
+│   ├── achivment.tsx # Досягнення
+│   └── profile.tsx   # Профіль користувача
+├── auth/             # Аутентифікація
+│   └── login.tsx     # Екран логіну
+├── course/           # Курси та уроки
+│   ├── [id].tsx      # Деталі курсу
+│   └── lesson/
+│       └── [lessonId].tsx # Деталі уроку
+└── context/
+    └── auth-context.tsx   # Контекст аутентифікації
+```
 
-## Join the community
+## Технології
 
-Join our community of developers creating universal apps.
+- React Native
+- Expo Router
+- TypeScript
+- AsyncStorage
+- Expo Video
+- React Navigation
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Автор
+
+Богдан Серветник

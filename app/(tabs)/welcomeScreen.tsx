@@ -8,7 +8,7 @@ export default function WelcomeScreen() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.replace("/(tabs)/CoursesScreen");
+      router.replace("/(tabs)/courses");
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
