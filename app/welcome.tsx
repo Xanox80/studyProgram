@@ -1,16 +1,20 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function WelcomeScreen() {
   const router = useRouter();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      router.replace("/(tabs)/courses");
-    }, 2000);
-    return () => clearTimeout(timer);
+    const run = async () => {
+      await AsyncStorage.setItem("welcomeSeen", "true");
+      setTimeout(() => {
+        router.replace("/(tabs)/courses");
+      }, 1500);
+    };
+    run();
   }, []);
 
   return (
@@ -18,11 +22,7 @@ export default function WelcomeScreen() {
       <View style={styles.center}>
         <Text style={styles.title}>Привіт 👋</Text>
         <Text style={styles.subtitle}>Раді бачити тебе знову!</Text>
-        <ActivityIndicator
-          size="large"
-          color="#fff"
-          style={{ marginTop: 30 }}
-        />
+        <ActivityIndicator size="large" color="#fff" style={{ marginTop: 30 }} />
       </View>
     </LinearGradient>
   );
@@ -34,3 +34,5 @@ const styles = StyleSheet.create({
   title: { fontSize: 28, color: "#fff", fontWeight: "bold" },
   subtitle: { fontSize: 18, color: "#e0e0e0", marginTop: 10 },
 });
+
+

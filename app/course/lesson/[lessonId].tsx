@@ -21,7 +21,7 @@ const lessonContent: Record<
   "react-intro": {
     title: "Вступ до React Native",
     text: "React Native дозволяє створювати мобільні застосунки на JavaScript, використовуючи компоненти, схожі на React.",
-    video: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+    video: "https://www.youtube.com/watch?v=mLyWsp2tWsw",
     quiz: {
       q: "Що таке React Native?",
       a: [
@@ -55,7 +55,19 @@ export default function LessonScreen() {
       <Text style={styles.title}>{lesson.title}</Text>
       <Text style={styles.text}>{lesson.text}</Text>
 
-      {lesson.video && (
+      {lesson.video && lesson.video.includes("youtube.com") ? (
+        <TouchableOpacity
+          style={[styles.video, { justifyContent: "center", alignItems: "center", backgroundColor: "#000" }]}
+          onPress={() => {
+            // Open YouTube links in the browser
+            const url = lesson.video as string;
+            // Lazy import to avoid top-level dependency
+            import("expo-web-browser").then(({ openBrowserAsync }) => openBrowserAsync(url));
+          }}
+        >
+          <Text style={{ color: "#fff" }}>Відкрити відео на YouTube</Text>
+        </TouchableOpacity>
+      ) : lesson.video ? (
         <VideoView
           player={player}
           style={styles.video}
@@ -64,7 +76,7 @@ export default function LessonScreen() {
           allowsFullscreen
           allowsPictureInPicture
         />
-      )}
+      ) : null}
 
       {lesson.quiz && (
         <View style={styles.quizContainer}>
