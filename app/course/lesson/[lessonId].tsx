@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { VideoView, useVideoPlayer } from "expo-video";
+import WebView from "react-native-webview";
 
 const lessonContent: Record<
   string,
@@ -43,6 +44,39 @@ export default function LessonScreen() {
   const lesson = lessonContent[lessonId as string];
   const player = useVideoPlayer(lesson?.video || "");
 
+  const isYouTubeUrl = (url?: string) =>
+    !!url && /(?:youtube\.com|youtu\.be)\//.test(url);
+
+  const getYouTubeId = (url: string): string | null => {
+    try {
+      const u = new URL(url);
+      if (u.hostname.includes("youtu.be")) {
+        return u.pathname.replace("/", "");
+      }
+      if (u.searchParams.get("v")) {
+        return u.searchParams.get("v");
+      }
+      const match = url.match(/(?:embed|v)\/([a-zA-Z0-9_-]{6,})/);
+      return match ? match[1] : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const renderYouTube = () => {
+    if (!lesson?.video) return null;
+    const id = getYouTubeId(lesson.video);
+    const uri = id ? `` : lesson.video;
+    return (
+      <WebView
+        style={styles.video}
+        javaScriptEnabled
+        allowsFullscreenVideo
+        source={{ uri }}
+      />
+    );
+  };
+
   if (!lesson)
     return (
       <View style={styles.container}>
@@ -55,18 +89,8 @@ export default function LessonScreen() {
       <Text style={styles.title}>{lesson.title}</Text>
       <Text style={styles.text}>{lesson.text}</Text>
 
-      {lesson.video && lesson.video.includes("youtube.com") ? (
-        <TouchableOpacity
-          style={[styles.video, { justifyContent: "center", alignItems: "center", backgroundColor: "#000" }]}
-          onPress={() => {
-            // Open YouTube links in the browser
-            const url = lesson.video as string;
-            // Lazy import to avoid top-level dependency
-            import("expo-web-browser").then(({ openBrowserAsync }) => openBrowserAsync(url));
-          }}
-        >
-          <Text style={{ color: "#fff" }}>Відкрити відео на YouTube</Text>
-        </TouchableOpacity>
+      {lesson.video && isYouTubeUrl(lesson.video) ? (
+        renderYouTube()
       ) : lesson.video ? (
         <VideoView
           player={player}

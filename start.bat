@@ -1,9 +1,0 @@
-@echo off
-echo Запуск React Native додатку...
-echo.
-echo Встановлення залежностей...
-call npm install
-echo.
-echo Запуск сервера розробки...
-call npm start
-pause
