@@ -29,7 +29,16 @@ export default function CourseLessons() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>📘 Уроки курсу</Text>
+      <View style={styles.headerContainer}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => router.back()}
+        >
+          <Text style={styles.backButtonText}>←</Text>
+        </TouchableOpacity>
+        <Text style={styles.header}>📘 Уроки курсу</Text>
+        <View style={styles.placeholder} />
+      </View>
 
       <FlatList
         data={lessons}
@@ -37,7 +46,7 @@ export default function CourseLessons() {
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.card}
-            onPress={() => router.push(`/course/lesson/${item.id}`)} // ✅ Передаємо правильний ID
+            onPress={() => router.push(`/course/lesson/${item.id}`)}
           >
             <Text style={styles.cardText}>{item.title}</Text>
           </TouchableOpacity>
@@ -50,12 +59,40 @@ export default function CourseLessons() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#f5f6fa", paddingTop: 60 },
+  headerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    marginBottom: 20,
+  },
+  backButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#4e54c8",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  backButtonText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
   header: {
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 20,
     color: "#4e54c8",
+    flex: 1,
+  },
+  placeholder: {
+    width: 40,
   },
   list: { paddingHorizontal: 20 },
   card: {
